@@ -13,11 +13,19 @@ Vector::Vector(double x, double y)
 }
 
 Vector::~Vector()
-{}
+{
+}
 
 void Vector::show()
 {
 	std::cout << "(" << m_x << "," << m_y << ")" << std::endl;
+}
+
+double Vector::vector_module()
+{
+	double square_sum = 0.0;
+	square_sum = m_x * m_x + m_y * m_y;
+	return sqrt(square_sum);
 }
 
 Vector Vector::operator+(const Vector& it) const
@@ -73,19 +81,63 @@ Vector Vector::operator*(const long double& it) const
 	return Vect_Mul;
 }
 
-Vector operator*(const int it, const Vector& that)
+Vector operator*(const double it, const Vector& that)
 {
 	return that * it;
 }
 
+void Engine::create_container()
+{
+	namedWindow("Engine");
+	Mat container = imread("container.png");
+	imshow("Engine", container);
+}
+
+Engine::Engine()
+{
+	time = 0;
+	create_container();
+}
+
+Engine::~Engine()
+{
+}
+
+void Engine::add_circle_object(double x, double y, int radius)
+{
+	int a = (int)x, b = (int)y;
+	Mat object = imread("test.png");
+	Mat image = imread("container.png");
+	Mat roi;
+	roi = image(Rect(a-radius,b+radius,53,52));
+	addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
+	namedWindow("Engine");
+	imshow("Engine", image);
+}
 
 int main()
 {
-	Vector a(1, 2), b(3, 4);
-	(a + b).show();
-	(a - b).show();
-	std::cout << (a * b) << std::endl;
-	(2 * a).show();
-	(a * 2).show();
+	Mat img = imread("test.png");
+	std::cout << img.rows << " " << img.cols << std::endl;
+	namedWindow("Engine");
+	int a = (int)100, b = (int)100;
+	Mat object = imread("test.png");
+	Mat image = imread("container.png");
+	Mat roi;
+
+	{
+
+		roi = image(Rect(100, 100, 53, 52));
+		addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
+		imshow("Engine", image);
+		roi = image(Rect(100, 150, 53, 52));
+		addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
+		imshow("Engine", image);
+		roi = image(Rect(100, 250, 53, 52));
+		addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
+		imshow("Engine", image);
+
+	}
+	waitKey(0);
 	return 0;
 }
