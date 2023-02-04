@@ -16,6 +16,10 @@ public:
 	Vector(double x, double y);
 	~Vector();
 	void show();
+	double x();
+	double y();
+	void anti_x();
+	void anti_y();
 	double vector_module();
 	void operator=(const Vector& it);//向量的赋值运算符重载
 	Vector operator+(const Vector& it) const;//向量的加减运算符重载
@@ -34,7 +38,6 @@ private:
 	Mat container;
 public:
 	void create_container();
-	void add_circle_object(double x, double y, int radius);
 	Engine();
 	~Engine();
 };

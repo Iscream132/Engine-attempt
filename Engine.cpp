@@ -21,6 +21,26 @@ void Vector::show()
 	std::cout << "(" << m_x << "," << m_y << ")" << std::endl;
 }
 
+double Vector::x()
+{
+	return m_x;
+}
+
+double Vector::y()
+{
+	return m_y;
+}
+
+void Vector::anti_x()
+{
+	m_x = -m_x;
+}
+
+void Vector::anti_y()
+{
+	m_y = -m_y;
+}
+
 double Vector::vector_module()
 {
 	double square_sum = 0.0;
@@ -89,7 +109,6 @@ Vector operator*(const double it, const Vector& that)
 void Engine::create_container()
 {
 	namedWindow("Engine");
-	Mat container = imread("container.png");
 	imshow("Engine", container);
 }
 
@@ -103,41 +122,49 @@ Engine::~Engine()
 {
 }
 
-void Engine::add_circle_object(double x, double y, int radius)
-{
-	int a = (int)x, b = (int)y;
-	Mat object = imread("test.png");
-	Mat image = imread("container.png");
-	Mat roi;
-	roi = image(Rect(a-radius,b+radius,53,52));
-	addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
-	namedWindow("Engine");
-	imshow("Engine", image);
-}
 
-int main()
-{
-	Mat img = imread("test.png");
-	std::cout << img.rows << " " << img.cols << std::endl;
-	namedWindow("Engine");
+	
+
+
+	
+
+
+
+	/*waitKey(0);
 	int a = (int)100, b = (int)100;
 	Mat object = imread("test.png");
 	Mat image = imread("container.png");
+	Mat dst = imread("container.png");
 	Mat roi;
-
+	
+	for (; a < 1000 && b < 1000; a = a + 20, b = b + 20)
 	{
-
-		roi = image(Rect(100, 100, 53, 52));
+		roi = image(Rect(a, b, 52, 52));
 		addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
 		imshow("Engine", image);
-		roi = image(Rect(100, 150, 53, 52));
-		addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
-		imshow("Engine", image);
-		roi = image(Rect(100, 250, 53, 52));
-		addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
-		imshow("Engine", image);
-
+		waitKey(0);
+		dst.copyTo(image);
 	}
+	*/
+	/*
+	roi = image(Rect(100, 100, 53, 52));
+	addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
+	imshow("Engine", image);
 	waitKey(0);
-	return 0;
-}
+	dst.copyTo(image);
+	roi = image(Rect(100, 150, 53, 52));
+	addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
+	imshow("Engine", image);
+	waitKey(0);
+	dst.copyTo(image);
+	roi = image(Rect(100, 250, 53, 52));
+	addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
+	imshow("Engine", image);
+	waitKey(0);
+	dst.copyTo(image);
+	roi = image(Rect(100, 300, 53, 52));
+	addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
+	imshow("Engine", image);
+	waitKey(0);
+	*/
+
