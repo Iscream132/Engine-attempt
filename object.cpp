@@ -38,7 +38,7 @@ int Circle::crash_detection(Circle it, Circle that)//1代表碰撞，0代表未碰撞
 
 int Circle::edge_detection()//2代表撞到边缘，0代表未碰撞
 {
-	if ((this->m_location.x() + this->m_radius) >= imgsize || (this->m_location.x() - this->m_radius) <= 0 ||
+	if ((this->m_location.x() + this->m_radius) >= imgsize-30 || (this->m_location.x() - this->m_radius) <= 0 ||
 		(this->m_location.y() + this->m_radius) >= imgsize-150 || (this->m_location.y() - this->m_radius) <= 0)
 		return 2;
 	else return 0;
@@ -68,7 +68,7 @@ void Circle::crush_solution(Circle it, Circle that)
 
 void Circle::edge_solution()
 {
-	if ((this->m_location.x() + this->m_radius) >= imgsize || (this->m_location.x() - this->m_radius) <= 0)
+	if ((this->m_location.x() + this->m_radius) >= imgsize-30 || (this->m_location.x() - this->m_radius) <= 0)
 	{
 		this->m_velocity.anti_x();
 	}
@@ -80,9 +80,9 @@ void Circle::edge_solution()
 
 void Circle::update()
 {
-	m_velocity = m_velocity + m_acceleration;
+	m_location = m_location_last + 0.0625 * m_velocity + 0.5*0.0625 * 0.0625 * m_acceleration;//0.0625是每帧间的时间间隔
 	Vector inter = m_location;
-	m_location = m_location_last + 0.0625*m_velocity + 0.0625 *0.0625* m_acceleration;
+	m_velocity = m_velocity + 0.0625 * m_acceleration;
 	m_location_last = inter;
 }
 
@@ -96,24 +96,28 @@ void Circle::add_circle(double x, double y, int radius)
 {
 	int a = (int)x, b = (int)y;
 	Mat roi;
-	roi = container(Rect(a - radius, b + radius, objsize, objsize));
+	roi = container(Rect(a - radius, b - radius, objsize, objsize));
 	addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
 	imshow("Engine", container);
-	waitKey(50);
+	waitKey(5);
 	dst.copyTo(container);
 }
 
 int main()
 {
 	//Circle(double mess, Vector location, Vector location_last, Vector velocity, double radius, Vector acceleration)
-	Circle o(10, Vector(100, 100), Vector(100, 100), Vector(30, 10), objsize/2, Vector(0, 0));
+	Circle o(10, Vector(100, 100), Vector(100, 100), Vector(30, 50), objsize/2, Vector(0, 0));
 	o.gravity();
+	//Circle v(10, Vector(600, 100), Vector(600, 100), Vector(-30, 10), objsize / 2, Vector(0, 0));
+	//v.gravity();
 	Mat img = imread("test.png");
 	std::cout << img.rows << " " << img.cols << std::endl;
 	namedWindow("Engine");
-	for (int j=0;j<500;j++)
+	for (int j=0;j<1500;j++)
 	{
+		std::cout << j << std::endl;
 		o.add_circle(o.location_x(),o.location_y(), 5);
+		//v.add_circle(v.location_x(), v.location_y(), 5);
 		if (o.edge_detection() == 2)
 		{
 			o.edge_solution();
