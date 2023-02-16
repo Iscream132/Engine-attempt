@@ -28,7 +28,7 @@ public:
 	int edge_detection();
 	double location_x();
 	double location_y();
-	void crush_solution(Circle it, Circle that);
+	void crash_solution(Circle& it, Circle& that);
 	void edge_solution();
 	void update();
 	void gravity();
