@@ -26,15 +26,15 @@ public:
 	Circle():Rigidbody() { m_radius = 0; m_acceleration = Vector(0, 0); };
 	Circle(double mess, Vector location, Vector location_last, Vector velocity, double radius, Vector acceleration)
 		:Rigidbody(mess, location, location_last, velocity) {m_radius = radius; m_acceleration = acceleration;};
-	int crash_detection(Circle it, Circle that);
-	int edge_detection();
-	double location_x();
-	double location_y();
-	void crash_solution(Circle& it, Circle& that);
-	void edge_solution();
-	void update();
-	void gravity();
-	void add_circle();
+	int crash_detection(Circle it, Circle that);//碰撞检测函数
+	int edge_detection();//边缘检测函数
+	double location_x();//返回位置的横坐标
+	double location_y();//返回位置的纵坐标
+	void crash_solution(Circle& it, Circle& that);//碰撞处理方法
+	void edge_solution();//边缘碰撞处理方法
+	void update();//位置更新函数
+	void gravity();//重力环境函数
+	void add_circle();//球体添加函数
 	void run();//运行函数
 };
 

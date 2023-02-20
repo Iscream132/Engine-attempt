@@ -32,8 +32,13 @@ Rigidbody::~Rigidbody()
 int Circle::crash_detection(Circle it, Circle that)//1代表碰撞，0代表未碰撞
 {
 	
-	if (((it.m_location - that.m_location).vector_module()) <= (it.m_radius + that.m_radius))
+	//m_location = m_location_last + 0.0625 * m_velocity + 0.5 * 0.0625 * 0.0625 * m_acceleration位置更新代码
+	if (((it.m_location + 0.0625 * it.m_velocity + 0.5 * 0.0625 * 0.0625 * it.m_acceleration)
+		- (that.m_location + 0.0625 * that.m_velocity + 0.5 * 0.0625 * 0.0625 * that.m_acceleration)).vector_module()
+		<= (it.m_radius + that.m_radius))//预判下一帧是否碰撞
+	{
 		return 1;
+	}
 	else return 0;
 }
 
@@ -117,12 +122,12 @@ void Circle::run()
 
 int main()
 {
-	//Circle(double mess, Vector location, Vector location_last, Vector velocity, double radius, Vector acceleration)
-	Circle o(10, Vector(100, 100), Vector(100, 100), Vector(50, 0), objsize/2, Vector(0, 0));
+	//一个球类构造函数 Circle(double mess, Vector location, Vector location_last, Vector velocity, double radius, Vector acceleration)
+	Circle o(10, Vector(100, 100), Vector(100, 100), Vector(50, 10), objsize/2, Vector(0, 0));
 	o.gravity();
 	Circle v(100, Vector(200, 100), Vector(200, 100), Vector(-30, 10), objsize / 2, Vector(0, 0));
 	v.gravity();
-	Circle q(100, Vector(500, 200), Vector(500, 200), Vector(20, -30), objsize / 2, Vector(0, 0));
+	Circle q(50, Vector(500, 200), Vector(500, 200), Vector(20, -30), objsize / 2, Vector(0, 0));
 	q.gravity();
 	Circle inter;
 	display engine;
