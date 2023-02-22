@@ -20,12 +20,15 @@ public:
 class Circle :public Rigidbody
 {
 private:
+	Mat m_src;
 	double m_radius;
 	Vector m_acceleration;
 public:
 	Circle():Rigidbody() { m_radius = 0; m_acceleration = Vector(0, 0); };
-	Circle(double mess, Vector location, Vector location_last, Vector velocity, double radius, Vector acceleration)
-		:Rigidbody(mess, location, location_last, velocity) {m_radius = radius; m_acceleration = acceleration;};
+	Circle(Mat src, double mess, Vector location, Vector location_last, Vector velocity, Vector acceleration)
+		:Rigidbody(mess, location, location_last, velocity) {
+		m_src = src; m_mess = src.rows; m_radius = src.rows / 2; m_acceleration = acceleration;
+	};
 	int crash_detection(Circle it, Circle that);//Åö×²¼ì²âº¯Êý
 	int edge_detection();//±ßÔµ¼ì²âº¯Êý
 	double location_x();//·µ»ØÎ»ÖÃµÄºá×ø±ê

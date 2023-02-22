@@ -1,12 +1,14 @@
 #include "object.h"
 
-
-#define objsize 52
-#define imgsize 1100
+#define imgsize 1000
 
 extern Mat container;
 extern Mat dst;
-extern Mat object;
+
+
+Mat test1 = imread("test1.png");
+Mat test2 = imread("test2.png");
+Mat test3 = imread("test3.png");
 
 
 Rigidbody::Rigidbody()
@@ -109,8 +111,8 @@ void Circle::gravity()
 void Circle::add_circle()
 {
 	Mat roi;
-	roi = container(Rect(this->location_x() - this->m_radius, this->location_y() - this->m_radius, objsize, objsize));
-	addWeighted(roi, 0.5, object, 0.5, 0.0, roi);
+	roi = container(Rect(this->location_x() - this->m_radius, this->location_y() - this->m_radius, 2*this->m_radius, 2*this->m_radius));
+	addWeighted(roi, 0.5, this->m_src, 0.5, 0.0, roi);
 }
 
 void Circle::run()
@@ -120,14 +122,14 @@ void Circle::run()
 	this->update();
 }
 
-int main()
+int main()//演示程序
 {
-	//一个球类构造函数 Circle(double mess, Vector location, Vector location_last, Vector velocity, double radius, Vector acceleration)
-	Circle o(10, Vector(100, 100), Vector(100, 100), Vector(50, 10), objsize/2, Vector(0, 0));
+	//一个球类构造函数 Circle(Mat src, double mess, Vector location, Vector location_last, Vector velocity, Vector acceleration)
+	Circle o(test1, 0, Vector(100, 100), Vector(100, 100), Vector(50, 10), Vector(0, 0));//mess为根据图片尺寸自动生成
 	o.gravity();
-	Circle v(100, Vector(200, 100), Vector(200, 100), Vector(-30, 10), objsize / 2, Vector(0, 0));
+	Circle v(test2, 0, Vector(200, 400), Vector(200, 400), Vector(-50, -10), Vector(0, 0));
 	v.gravity();
-	Circle q(50, Vector(500, 200), Vector(500, 200), Vector(20, -30), objsize / 2, Vector(0, 0));
+	Circle q(test3, 0, Vector(300, 700), Vector(300, 700), Vector(30, 10), Vector(0, 0));
 	q.gravity();
 	Circle inter;
 	display engine;
