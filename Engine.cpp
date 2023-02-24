@@ -111,8 +111,3 @@ Vector operator*(const double it, const Vector& that)
 {
 	return that * it;
 }
-
-
-
-
-	
